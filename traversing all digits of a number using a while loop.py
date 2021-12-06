@@ -32,3 +32,4 @@ print(f'The sum of all the digits in the number: {summ}')
 print(f'The product of all the digits in the number: {pr}')
 print(f'Maximum digit in the number: {maxim}')
 print(f'Minimum digit in the number: {minim}')
+

@@ -1,32 +1,44 @@
+import sqlalchemy
+import pandas as pd
 
-# обход всех цифр числа с помощью цикла while
-# traversing all digits of a number using a while loop
+db = 'postgresql://ivoronkov:u123456@localhost:5432/ivoronkov'
+engine = sqlalchemy.create_engine(db)
+connection = engine.connect()
 
-x = int(input("Enter a number: "))
-count = 0
-count_even = 0
-summ = 0
-pr = 1
-maxim = 0
-minim = 9
 
-while x > 0:
-    last = x % 10
-    count = count + 1
-    if last % 2 == 0:
-        count_even += 1
-    summ = summ + last
-    pr = pr * last
-    if last > maxim:
-        maxim = last
-    if last < minim:
-        minim = last
-    x = x//10
+sel_1 = connection.execute("""SELECT genre_id, COUNT(artist_id) FROM artist_genre 
+    GROUP BY genre_id;
+""").fetchmany(10)
+# print(sel_1)
 
-print(f'Total digits count in the number: {count}')
-print(f'Total even digits count in the number: {count_even}')
-print(f'The sum of all the digits in the number: {summ}')
-print(f'The product of all the digits in the number: {pr}')
-print(f'Maximum digit in the number: {maxim}')
-print(f'Minimum digit in the number: {minim}')
+print(pd.DataFrame(sel_1))
 
+
+# sel_2 = connection.execute("""SELECT track_name, duration FROM track
+#     ORDER BY duration DESC;
+# """).fetchmany(1)
+# print(sel_2)
+#
+#
+# sel_3 = connection.execute("""SELECT track_name FROM track
+#     WHERE duration >= 210;
+# """).fetchmany(10)
+# print(sel_3)
+#
+#
+# sel_4 = connection.execute("""SELECT collection_name FROM collection
+#     WHERE release_year BETWEEN 2018 AND 2020;
+# """).fetchmany(10)
+# print(sel_4)
+#
+#
+# sel_5 = connection.execute("""SELECT artist_name FROM artist
+#     WHERE artist_name NOT LIKE '%% %%';
+# """).fetchmany(15)
+# print(sel_5)
+#
+#
+# sel_6 = connection.execute("""SELECT track_name FROM track
+#     WHERE track_name LIKE '%%my%%'
+# """).fetchmany(15)
+# print(sel_6)
